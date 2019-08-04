@@ -1,0 +1,160 @@
+@import "normalize.css";
+
+// variables
+:root {
+  --sidebar-width: 100%;
+  --toggler-size: 30px;
+  --toggler-line-number: 3;
+  --toggler-line-size: calc(var(--toggler-size) / (var(--toggler-line-number) + var(--toggler-line-number) - 1));
+  --toggler-offset-left: 10px;
+  --toggler-offset-top: 10px;
+  --toggler-color: black;
+  --toggler-color-hover: Wheat;
+}
+
+// same as var(--toggler-line-number)
+$total: 3;
+
+// reset
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.menu-toggler {
+  border-radius: calc(var(--toggler-line-size) / 2);
+  display: block;
+  width: var(--toggler-size);
+  height: var(--toggler-size);
+  position: absolute;
+  top: var(--toggler-offset-top);
+  left: var(--toggler-offset-left);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.menu-toggler__line {
+  height: var(--toggler-line-size);
+  background: var(--toggler-color);
+  position: absolute;
+  border-radius: calc(var(--toggler-line-size) / 2);
+  left: 0;
+  right: 0;
+  transition: all 0.25s ease-out;
+
+  $num: 1;
+
+  @while $num <= $total {
+    &:nth-child(#{$num}) {
+      top: calc(var(--toggler-line-size) * #{$num} + (var(--toggler-line-size) * (#{$num} - 2)));
+    }
+
+    $num: $num + 1;
+  }
+}
+
+$theme-basic-sidebar-width: 100px;
+$theme-basic-sidebar-open-width: 250px;
+$theme-basic-content-width: calc(100% - #{$theme-basic-sidebar-width});
+$theme-basic-content-open-width: calc(100% - #{$theme-basic-sidebar-open-width});
+
+$sidebar-background-color: blue;
+$content-background-color: #f67926;
+
+.theme-basic-container {
+  position: relative;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.theme-basic-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: $theme-basic-sidebar-width;
+  background: $sidebar-background-color;
+  box-shadow: 0 2px 22px 0 rgba(0, 0, 0, 0.2), 0 2px 30px 0 rgba(0, 0, 0, 0.35);
+  z-index: 5;
+
+  @media screen and (min-width: 768px) {
+    &:hover {
+      width: $theme-basic-sidebar-open-width;
+    }
+  }
+}
+
+.theme-basic-content {
+  position: relative;
+  float: right;
+  height: 100%;
+  background: $content-background-color;
+  width: $theme-basic-content-width;
+}
+
+.theme-basic-sidebar,
+.theme-basic-content {
+  transition-property: top, bottom, width;
+  transition-duration: 0.2s, 0.2s, 0.35s;
+  transition-timing-function: linear, linear, ease;
+}
+
+.input-toggler {
+  position: absolute;
+  left: 7000px;
+  visibility: hidden;
+  &:checked {
+    & ~ .theme-basic-sidebar {
+      width: $theme-basic-sidebar-open-width;
+    }
+    & ~ .theme-basic-content {
+      width: $theme-basic-content-open-width;
+    }
+  }
+}
+
+.theme-basic-navbar {
+  display: block;
+  background: #ccc;
+  height: 80px;
+  box-shadow: 0 2px 22px 0 rgba(0, 0, 0, 0.2), 0 2px 30px 0 rgba(0, 0, 0, 0.35);
+  position: relative;
+}
+
+.menu-toggler--mobile {
+  visibility: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  .theme-basic-sidebar {
+    width: 0%;
+  }
+
+  .theme-basic-content {
+    width: 100%;
+  }
+
+  .menu-toggler {
+    visibility: hidden;
+    &--mobile {
+      visibility: visible;
+    }
+  }
+
+  .input-toggler {
+    &:checked {
+      & ~ .theme-basic-sidebar .menu-toggler {
+        visibility: visible;
+      }
+      & ~ .theme-basic-sidebar {
+        width: 100%;
+      }
+      & ~ .theme-basic-content {
+        width: 0%;
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+block title
+  title My Page - Home
+
+block manifestBrowserconfigFiles
+  link(href='../manifest.json', rel='manifest')
+  meta(name='msapplication-config' content='../browserconfig.xml')
+  meta( name='viewport', content='width=device-width, initial-scale=1' )
+
+block content
+.theme-basic-container
+  input#menuToggler.input-toggler(type="checkbox" value="1" autofocus="true")
+  .theme-basic-sidebar
+    label.menu-toggler(for="menuToggler" role="button" aria-pressed="false" aria-expanded="false" aria-label="Navigation button")
+      span.menu-toggler__line
+      span.menu-toggler__line
+      span.menu-toggler__line
+  .theme-basic-content
+    navbar.theme-basic-navbar
+      label.menu-toggler.menu-toggler--mobile(for="menuToggler" role="button" aria-pressed="false" aria-expanded="false" aria-label="Navigation button")
+        span.menu-toggler__line
+        span.menu-toggler__line
+        span.menu-toggler__line
+    h1 TESTE
